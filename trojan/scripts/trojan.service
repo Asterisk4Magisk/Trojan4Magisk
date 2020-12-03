@@ -17,6 +17,7 @@ tun_device="utun"
 tun_ip="198.18.0.0/16"
 
 tun_start() {
+  create_tun_link
   nohup /system/bin/tun2socks --tundev $tun_device --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:65535 --enable-udprelay --loglevel 1 >/dev/null 2>&1 &
 }
 
@@ -25,6 +26,7 @@ create_tun_link() {
     if [ ! -L /dev/net/tun ] ; then
         ln -s /dev/tun /dev/net/tun
     fi
+    ip tuntap add mode tun $tun_device >/dev/null 2>&1
 }
 
 add_rule() {

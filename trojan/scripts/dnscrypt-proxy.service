@@ -45,7 +45,7 @@ probe_dnscrypt-proxy_alive() {
 probe_trojan_listen() {
   find_netstat_path || return
   trojan_listen=`netstat -unlp | grep trojan-go`
-  if eval "echo \"${trojan_listen}\" | grep -q :::${proxy_port}" || eval "echo \"${trojan_listen}\" | grep -q 0.0.0.0:${proxy_port}" ; then
+  if eval "echo \"${trojan_listen}\" | grep ${proxy_port}" ; then
     trojan_share=true
     return 0
   else
