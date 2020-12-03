@@ -67,6 +67,7 @@ ui_print "- Install trojan core $ARCH execute files"
 unzip -j -o "${download_trojan_zip}" "geoip.dat" -d /data/trojan >&2
 unzip -j -o "${download_trojan_zip}" "geosite.dat" -d /data/trojan >&2
 unzip -j -o "${download_trojan_zip}" "trojan-go" -d $MODPATH/system/bin >&2
+unzip -j -o "${download_trojan_zip}" "trojan/bin/tun2socks" -d $MODPATH/system/bin >&2
 unzip -j -o "${ZIPFILE}" 'trojan/scripts/*' -d $MODPATH/scripts >&2
 unzip -j -o "${ZIPFILE}" "trojan/bin/$ARCH/dnscrypt-proxy" -d $MODPATH/system/bin >&2
 unzip -j -o "${ZIPFILE}" 'service.sh' -d $MODPATH >&2
@@ -121,5 +122,6 @@ set_perm  $MODPATH/scripts/trojan.service    0  0  0755
 set_perm  $MODPATH/scripts/trojan.tproxy     0  0  0755
 set_perm  $MODPATH/scripts/dnscrypt-proxy.service   0  0  0755
 set_perm  $MODPATH/system/bin/trojan-go  ${inet_uid}  ${inet_uid}  0755
+set_perm  $MODPATH/system/bin/tun2socks  ${inet_uid}  ${inet_uid}  0755
 set_perm  /data/trojan                ${inet_uid}  ${inet_uid}  0755
 set_perm  $MODPATH/system/bin/dnscrypt-proxy ${net_raw_uid} ${net_raw_uid} 0755

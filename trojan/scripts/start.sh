@@ -3,15 +3,15 @@
 MODDIR=${0%/*}
 
 start_proxy () {
-  ${MODDIR}/xray.service start &> /data/xray/run/service.log && \
-  if [ -f /data/xray/appid.list ] || [ -f /data/xray/softap.list ] ; then
-    ${MODDIR}/xray.tproxy enable &>> /data/xray/run/service.log && \
-    if [ -f /data/xray/dnscrypt-proxy/dnscrypt-proxy.toml ] ; then
-      ${MODDIR}/dnscrypt-proxy.service enable &>> /data/xray/run/service.log &
+  ${MODDIR}/trojan.service start &> /data/trojan/run/service.log && \
+  if [ -f /data/trojan/appid.list ] || [ -f /data/trojan/softap.list ] ; then
+    ${MODDIR}/trojan.tproxy enable &>> /data/trojan/run/service.log && \
+    if [ -f /data/trojan/dnscrypt-proxy/dnscrypt-proxy.toml ] ; then
+      ${MODDIR}/dnscrypt-proxy.service enable &>> /data/trojan/run/service.log &
     fi
   fi
 }
-if [ ! -f /data/xray/manual ] ; then
+if [ ! -f /data/trojan/manual ] ; then
   start_proxy
-  inotifyd ${MODDIR}/xray.inotify ${MODDIR}/.. &>> /data/xray/run/service.log &
+  inotifyd ${MODDIR}/trojan.inotify ${MODDIR}/.. &>> /data/trojan/run/service.log &
 fi

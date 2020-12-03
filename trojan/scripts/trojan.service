@@ -2,14 +2,49 @@
 
 bin_name="trojan-go"
 bin_path="/system/bin/${bin_name}"
-data_path="/data/${bin_name}"
+data_path="/data/trojan"
 run_path="${data_path}/run"
 pid_file="${run_path}/${bin_name}.pid"
 error_log="${run_path}/error.log"
 conf_file="${data_path}/config.json"
 bin_opts="-config ${conf_file}"
 iptables_wait="iptables"
+proxy_port="65535"
 
+mark_id="2020"
+table_id="2020"
+tun_device="utun"
+tun_ip="198.18.0.0/16"
+
+tun_start() {
+  nohup /system/bin/tun2socks --tundev $tun_device --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:65535 --enable-udprelay --loglevel 1 >/dev/null 2>&1 &
+}
+
+create_tun_link() {
+    mkdir -p /dev/net
+    if [ ! -L /dev/net/tun ] ; then
+        ln -s /dev/tun /dev/net/tun
+    fi
+}
+
+add_rule() {
+    ip rule add fwmark ${mark_id} table ${table_id} pref 5000
+    ip rule add from ${tun_ip} to ${tun_ip} table ${table_id} pref 14000
+}
+
+del_rule() {
+    ip rule del fwmark ${mark_id} table ${table_id} pref 5000
+    ip rule del from ${tun_ip} to ${tun_ip} table ${table_id} pref 14000
+}
+
+add_route() {
+    ip route add default dev ${tun_device} table ${table_id}
+    ip route add ${tun_ip} dev ${tun_device} table ${table_id}
+}
+
+flush_route() {
+    ip route flush table ${table_id}
+}
 
 suit_iptables_version() {
   iptables_version=`iptables -V | grep -o "v1\.[0-9]"`
@@ -87,6 +122,9 @@ start_service() {
     echo -n $! > ${pid_file}
     if wait_trojan_listen ; then
       echo "[Info]: ${bin_name} service is running. ( PID: `cat ${pid_file}` )"
+      tun_start
+      add_rule
+      add_route
       return 0
     else
       if probe_trojan_alive ; then
@@ -108,6 +146,8 @@ stop_service() {
     echo "[Info]: Stopping ${bin_name} service."
     kill `cat ${pid_file}`
     sleep 1
+    del_rule
+    flush_route
     display_trojan_pid
   fi
   rm -f ${pid_file}
