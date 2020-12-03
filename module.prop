@@ -1,0 +1,6 @@
+id=trojan4magisk
+name=Trojan for Magisk
+version=v0.0.1
+versionCode=20201203
+author=CerteKim
+description=Trojan-go with service scripts for Android
