@@ -22,16 +22,16 @@ if [ -f "${custom}" ]; then
 else
   case "${ARCH}" in
     arm)
-      version="trojan-linux-armv7.zip"
+      version="trojan-go-linux-armv7.zip"
       ;;
     arm64)
-      version="trojan-linux-armv8.zip"
+      version="trojan-go-linux-armv8.zip"
       ;;
     x86)
-      version="trojan-linux-386.zip"
+      version="trojan-go-linux-386.zip"
       ;;
     x64)
-      version="trojan-linux-amd64.zip"
+      version="trojan-go-linux-amd64.zip"
       ;;
   esac
   if [ -f /sdcard/Download/"${version}" ]; then
