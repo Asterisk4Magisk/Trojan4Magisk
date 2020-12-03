@@ -67,7 +67,7 @@ ui_print "- Install trojan core $ARCH execute files"
 unzip -j -o "${download_trojan_zip}" "geoip.dat" -d /data/trojan >&2
 unzip -j -o "${download_trojan_zip}" "geosite.dat" -d /data/trojan >&2
 unzip -j -o "${download_trojan_zip}" "trojan-go" -d $MODPATH/system/bin >&2
-unzip -j -o "${download_trojan_zip}" "trojan/bin/tun2socks" -d $MODPATH/system/bin >&2
+unzip -j -o "${ZIPFILE}" "trojan/bin/tun2socks" -d $MODPATH/system/bin >&2
 unzip -j -o "${ZIPFILE}" 'trojan/scripts/*' -d $MODPATH/scripts >&2
 unzip -j -o "${ZIPFILE}" "trojan/bin/$ARCH/dnscrypt-proxy" -d $MODPATH/system/bin >&2
 unzip -j -o "${ZIPFILE}" 'service.sh' -d $MODPATH >&2
@@ -105,9 +105,9 @@ rm -rf $MODPATH/module.prop
 touch $MODPATH/module.prop
 echo "id=trojan" > $MODPATH/module.prop
 echo "name=trojan4magisk" >> $MODPATH/module.prop
-echo -n "version=" >> $MODPATH/module.prop
+echo -n "version=v0.0.2" >> $MODPATH/module.prop
 echo ${latest_trojan_version} >> $MODPATH/module.prop
-echo "versionCode=20201203" >> $MODPATH/module.prop
+echo "versionCode=20201204" >> $MODPATH/module.prop
 echo "author=CerteKim" >> $MODPATH/module.prop
 echo "description=trojan-go with service scripts for Android" >> $MODPATH/module.prop
 
