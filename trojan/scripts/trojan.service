@@ -114,7 +114,7 @@ start_service() {
   if probe_trojan_alive ; then
     echo "[Info]: ${bin_name} service is running. ( PID: `cat ${pid_file}` )"
     return 0
-  elif [ -f ${conf_file} ] && ${bin_path} ${bin_opts} -test ; then
+  elif [ -f ${conf_file} ]  ; then
     echo "[Info]: Starting ${bin_name} service."
     mkdir -p ${run_path}
     chown -R inet:inet ${data_path}
