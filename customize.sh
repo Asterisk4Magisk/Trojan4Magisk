@@ -28,10 +28,10 @@ else
       version="trojan-linux-armv8.zip"
       ;;
     x86)
-      version="trojan-linux-32.zip"
+      version="trojan-linux-386.zip"
       ;;
     x64)
-      version="trojan-linux-64.zip"
+      version="trojan-linux-amd64.zip"
       ;;
   esac
   if [ -f /sdcard/Download/"${version}" ]; then
@@ -44,7 +44,7 @@ else
       abort "Error: Please install in Magisk Manager"
     fi
     official_trojan_link="https://github.com.cnpmjs.org/p4gefau1t/trojan-go/releases"
-    latest_trojan_version=`curl -k -s -I "${official_trojan_link}/latest" | grep -i location | grep -o "tag.*" | grep -o "v[0-9.]*"`
+    latest_trojan_version=`curl -k -s https://api.github.com/repos/p4gefau1t/trojan-go/releases | grep -m 1 "tag_name" | grep -o "v[0-9.]*"`
     if [ "${latest_trojan_version}" = "" ] ; then
       ui_print "Error: Connect official trojan download link failed." 
       ui_print "Tips: You can download trojan core manually,"
@@ -66,7 +66,7 @@ fi
 ui_print "- Install trojan core $ARCH execute files"
 unzip -j -o "${download_trojan_zip}" "geoip.dat" -d /data/trojan >&2
 unzip -j -o "${download_trojan_zip}" "geosite.dat" -d /data/trojan >&2
-unzip -j -o "${download_trojan_zip}" "trojan" -d $MODPATH/system/bin >&2
+unzip -j -o "${download_trojan_zip}" "trojan-go" -d $MODPATH/system/bin >&2
 unzip -j -o "${ZIPFILE}" 'trojan/scripts/*' -d $MODPATH/scripts >&2
 unzip -j -o "${ZIPFILE}" "trojan/bin/$ARCH/dnscrypt-proxy" -d $MODPATH/system/bin >&2
 unzip -j -o "${ZIPFILE}" 'service.sh' -d $MODPATH >&2
@@ -120,6 +120,6 @@ set_perm  $MODPATH/scripts/trojan.inotify    0  0  0755
 set_perm  $MODPATH/scripts/trojan.service    0  0  0755
 set_perm  $MODPATH/scripts/trojan.tproxy     0  0  0755
 set_perm  $MODPATH/scripts/dnscrypt-proxy.service   0  0  0755
-set_perm  $MODPATH/system/bin/trojan  ${inet_uid}  ${inet_uid}  0755
+set_perm  $MODPATH/system/bin/trojan-go  ${inet_uid}  ${inet_uid}  0755
 set_perm  /data/trojan                ${inet_uid}  ${inet_uid}  0755
 set_perm  $MODPATH/system/bin/dnscrypt-proxy ${net_raw_uid} ${net_raw_uid} 0755
