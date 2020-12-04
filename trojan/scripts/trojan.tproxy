@@ -46,6 +46,7 @@ find_netstat_path() {
 }
 
 create_mangle_iptables() {
+  echo "[Info]: creating mangle chain"
     ${iptables_wait} -t mangle -N TROJAN
 
     for subnet in ${intranet[@]} ; do
@@ -61,6 +62,7 @@ create_mangle_iptables() {
 }
 
 create_ap_iptables() {
+  echo "[Info]: creating nat ap chain"
     ${iptables_wait} -t nat -N AP_PROXY
     for subnet in ${intranet[@]} ; do
         ${iptables_wait} -t nat -A AP_PROXY -d ${subnet} -j RETURN
@@ -71,6 +73,7 @@ create_ap_iptables() {
 }
 
 create_proxy_iptables() {
+  echo "[Info]: creating proxy"
     ${iptables_wait} -t mangle -N PROXY
     ${iptables_wait} -t nat -N FILTER_DNS
 
@@ -103,12 +106,14 @@ create_proxy_iptables() {
 }
 
 create_dns_iptables() {
+  echo "[Info]: creating dns proxy"
     ${iptables_wait} -t nat -N DNS
     ${iptables_wait} -t nat -A DNS -p tcp --dport 53 -j REDIRECT --to-port ${dns_port}
     ${iptables_wait} -t nat -A DNS -p udp --dport 53 -j REDIRECT --to-port ${dns_port}
 }
 
 flush_iptables() {
+  echo "[Info]: flush iptables"
     # Delete ${iptables_wait} rules
     ${iptables_wait} -t nat -D PREROUTING -j AP_PROXY
     ${iptables_wait} -t nat -D PREROUTING -j DNS

@@ -18,10 +18,12 @@ tun_ip="198.18.0.0/16"
 
 tun_start() {
   create_tun_link
-  nohup /system/bin/tun2socks -tunName $tun_device -tunAddr 10.0.0.2 -tunMask 255.255.255.0 -proxyServer 127.0.0.1:65535 -loglevel info >/dev/null 2>&1 &
+  echo "[Info]: Starting tun"
+  nohup /system/bin/tun2socks -tundev $tun_device --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:65535 --enable-udprelay -loglevel 1 >/dev/null 2>&1 &
 }
 
 create_tun_link() {
+    echo "[Info]: Creating tun dev"
     mkdir -p /dev/net
     if [ ! -L /dev/net/tun ] ; then
         ln -s /dev/tun /dev/net/tun
@@ -30,21 +32,25 @@ create_tun_link() {
 }
 
 add_rule() {
+  echo "[Info]: Add ip rule"
     ip rule add fwmark ${mark_id} table ${table_id} pref 5000
     ip rule add from ${tun_ip} to ${tun_ip} table ${table_id} pref 14000
 }
 
 del_rule() {
+  echo "[Info]: del ip rule"
     ip rule del fwmark ${mark_id} table ${table_id} pref 5000
     ip rule del from ${tun_ip} to ${tun_ip} table ${table_id} pref 14000
 }
 
 add_route() {
+  echo "[Info]: add route"
     ip route add default dev ${tun_device} table ${table_id}
     ip route add ${tun_ip} dev ${tun_device} table ${table_id}
 }
 
 flush_route() {
+  echo "[Info]: flush route"
     ip route flush table ${table_id}
 }
 
