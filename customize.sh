@@ -98,7 +98,7 @@ unzip -j -o "${ZIPFILE}" 'trojan/etc/dnscrypt-proxy/dnscrypt-whitelist.txt' -d /
 unzip -j -o "${ZIPFILE}" 'trojan/etc/dnscrypt-proxy/example-dnscrypt-proxy.toml' -d /data/trojan/dnscrypt-proxy >&2
 unzip -j -o "${ZIPFILE}" 'trojan/etc/dnscrypt-proxy/update-rules.sh' -d /data/trojan/dnscrypt-proxy >&2
 [ -f /data/trojan/config.json ] || \
-cp /data/trojan/config.json.template /data/trojan/config.json
+cp /data/trojan/config.json.example /data/trojan/config.json
 ln -s /data/trojan/resolv.conf $MODPATH/system/etc/resolv.conf
 # generate module.prop
 ui_print "- Generate module.prop"
@@ -106,7 +106,7 @@ rm -rf $MODPATH/module.prop
 touch $MODPATH/module.prop
 echo "id=trojan" > $MODPATH/module.prop
 echo "name=trojan4magisk" >> $MODPATH/module.prop
-echo -n "version=v1.0.0" >> $MODPATH/module.prop
+echo -n "version=v1.1.0" >> $MODPATH/module.prop
 echo ${latest_trojan_version} >> $MODPATH/module.prop
 echo "versionCode=20201204" >> $MODPATH/module.prop
 echo "author=CerteKim" >> $MODPATH/module.prop

@@ -114,10 +114,10 @@ create_dns_iptables() {
 
 flush_iptables() {
   echo "[Info]: flush iptables"
-    # Delete ${iptables_wait} rules
+    # Delete iptables rules
     ${iptables_wait} -t nat -D PREROUTING -j AP_PROXY
     ${iptables_wait} -t nat -D PREROUTING -j DNS
-    # Clear ${iptables_wait} chain
+    # Clear iptables chain
     ${iptables_wait} -t mangle -F OUTPUT
     ${iptables_wait} -t nat -F OUTPUT
     ${iptables_wait} -t mangle -F TROJAN
@@ -125,7 +125,7 @@ flush_iptables() {
     ${iptables_wait} -t nat -F FILTER_DNS
     ${iptables_wait} -t nat -F DNS
     ${iptables_wait} -t nat -F AP_PROXY
-    # Delete ${iptables_wait} chain
+    # Delete iptables chain
     ${iptables_wait} -t mangle -X TROJAN
     ${iptables_wait} -t mangle -X PROXY
     ${iptables_wait} -t nat -X FILTER_DNS
