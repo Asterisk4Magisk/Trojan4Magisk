@@ -74,10 +74,10 @@ create_proxy_iptables() {
     ${iptables_wait} -t mangle -N PROXY
     ${iptables_wait} -t nat -N FILTER_DNS
 
-    ${iptables_wait} -t mangle -A PROXY -m owner --uid-owner 0 -j RETURN
-    ${iptables_wait} -t mangle -A PROXY -m owner --uid-owner ${inet_uid} -j RETURN
-    ${iptables_wait} -t nat -A FILTER_DNS -m owner --uid-owner 0 -j RETURN
-    ${iptables_wait} -t nat -A FILTER_DNS -m owner --uid-owner ${inet_uid} -j RETURN
+    ${iptables_wait} -t mangle -A PROXY -m owner --gid-owner ${net_raw_uid} -j RETURN
+    ${iptables_wait} -t mangle -A PROXY -m owner --gid-owner ${inet_uid} -j RETURN
+    ${iptables_wait} -t nat -A FILTER_DNS -m owner --gid-owner ${net_raw_uid}  -j RETURN
+    ${iptables_wait} -t nat -A FILTER_DNS -m owner --gid-owner ${inet_uid} -j RETURN
 
     probe_proxy_mode
 
