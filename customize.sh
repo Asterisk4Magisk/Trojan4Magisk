@@ -3,6 +3,7 @@
 # trojan Customization
 #####################
 SKIPUNZIP=1
+ASH_STANDALONE=1
 
 # prepare trojan execute environment
 ui_print "- Prepare trojan execute environment."
@@ -14,7 +15,7 @@ mkdir -p $MODPATH/system/bin
 mkdir -p $MODPATH/system/etc
 
 download_trojan_zip="/data/trojan/run/trojan-go.zip"
-custom="/sdcard/Download/trojan-go.zip"
+custom="$(dirname ${ZIPFILE})/trojan-go.zip"
 
 if [ -f "${custom}" ]; then
   cp "${custom}" "${download_trojan_zip}"

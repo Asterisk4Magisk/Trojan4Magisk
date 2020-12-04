@@ -14,16 +14,14 @@ This is a Trojan-go module for Magisk, and includes binaries for arm, arm64, x86
 You can download the release installer zip file and install it via the Magisk Manager App.
 
 ### Manual download Trojan-go
-Download the correct CPU Architecture Trojan-go zip file and put it in your /sdcard/Download folder.
+Download the correct CPU Architecture Trojan-go zip file and put it in the same folder where you place Xray4Magisk.zip.
 
 such as "trojan-go-linux-armv8.zip"
 
-The Installer will install it.
 
 ### Custom Trojan-go
-Put any trojan-go.zip in /sdcard/Download folder.
+Put any trojan-go.zip in the same folder where you place Xray4Magisk.zip.
 
-The Installer will install it.
 
 ## Config
 
