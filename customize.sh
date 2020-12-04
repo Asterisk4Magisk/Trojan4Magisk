@@ -122,6 +122,6 @@ set_perm  $MODPATH/scripts/trojan.service    0  0  0755
 set_perm  $MODPATH/scripts/trojan.tproxy     0  0  0755
 set_perm  $MODPATH/scripts/dnscrypt-proxy.service   0  0  0755
 set_perm  $MODPATH/system/bin/trojan-go  ${inet_uid}  ${inet_uid}  0755
-set_perm  $MODPATH/system/bin/tun2socks  ${inet_uid}  ${inet_uid}  0755
+set_perm  $MODPATH/system/bin/tun2socks  0  0  0755
 set_perm  /data/trojan                ${inet_uid}  ${inet_uid}  0755
 set_perm  $MODPATH/system/bin/dnscrypt-proxy ${net_raw_uid} ${net_raw_uid} 0755

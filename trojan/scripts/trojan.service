@@ -19,7 +19,8 @@ tun_ip="198.18.0.0/16"
 tun_start() {
   create_tun_link
   echo "[Info]: Starting tun"
-  nohup /system/bin/tun2socks --tundev $tun_device --netif-ipaddr 10.0.0.2 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:65535 --enable-udprelay --loglevel 1 >/dev/null 2>&1 &
+  echo "" > ${run_path}/tun2socks.log
+  nohup tun2socks -tunName $tun_device -tunAddr 10.0.0.2 -tunMask 255.255.255.0 -proxyServer 127.0.0.1:65535 &>/dev/null &
 }
 
 create_tun_link() {
