@@ -106,7 +106,7 @@ rm -rf $MODPATH/module.prop
 touch $MODPATH/module.prop
 echo "id=trojan" > $MODPATH/module.prop
 echo "name=trojan4magisk" >> $MODPATH/module.prop
-echo -n "version=v1.1.0" >> $MODPATH/module.prop
+echo -n "version=Module v1.1.1, Core" >> $MODPATH/module.prop
 echo ${latest_trojan_version} >> $MODPATH/module.prop
 echo "versionCode=20201204" >> $MODPATH/module.prop
 echo "author=CerteKim" >> $MODPATH/module.prop
