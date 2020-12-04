@@ -50,7 +50,7 @@ Put any trojan-go.zip in the same folder where you place Xray4Magisk.zip.
 
 - If you expect all Apps proxy by trojan with transparent proxy, just write a `ALL` in file `/data/trojan/appid.list` .
 
-- If you expect all Apps proxy by trojan with transparent proxy EXCEPT specific Apps, write down `#bypass` at the first line then these Apps' uid separated as above in file `/data/trojan/appid.list`. 
+- If you expect all Apps proxy by trojan with transparent proxy EXCEPT specific Apps, write down `bypass` at the first line then these Apps' uid separated as above in file `/data/trojan/appid.list`. 
 
 - Transparent proxy won't take effect until the trojan service start normally and file `/data/trojan/appid.list` is not empty.
 
