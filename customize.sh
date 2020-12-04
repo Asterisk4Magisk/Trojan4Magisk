@@ -98,7 +98,7 @@ unzip -j -o "${ZIPFILE}" 'trojan/etc/dnscrypt-proxy/dnscrypt-whitelist.txt' -d /
 unzip -j -o "${ZIPFILE}" 'trojan/etc/dnscrypt-proxy/example-dnscrypt-proxy.toml' -d /data/trojan/dnscrypt-proxy >&2
 unzip -j -o "${ZIPFILE}" 'trojan/etc/dnscrypt-proxy/update-rules.sh' -d /data/trojan/dnscrypt-proxy >&2
 [ -f /data/trojan/config.json ] || \
-cp /data/trojan/config.json.example /data/trojan/config.json
+cp /data/trojan/config.json.example /data/trojan/config.json.example
 ln -s /data/trojan/resolv.conf $MODPATH/system/etc/resolv.conf
 # generate module.prop
 ui_print "- Generate module.prop"
