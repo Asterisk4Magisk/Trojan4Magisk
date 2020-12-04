@@ -20,7 +20,7 @@ tun_start() {
   create_tun_link
   echo "[Info]: Starting tun"
   echo "" > ${run_path}/tun2socks.log
-  nohup tun2socks -tunName $tun_device -tunAddr 10.0.0.2 -tunMask 255.255.255.0 -proxyServer 127.0.0.1:65535 &>/dev/null &
+  nohup tun2socks -tunName $tun_device -tunAddr 10.0.0.2 -tunMask 255.255.255.0 -proxyServer 127.0.0.1:65535 &>${run_path}/tun2socks.log &
 }
 
 create_tun_link() {
