@@ -20,7 +20,7 @@ custom="/sdcard/Download/trojan-go.zip"
 if [ -f "${custom}" ]; then
   cp "${custom}" "${download_trojan_zip}"
   ui_print "Info: Custom trojan-go found, starting installer"
-  latest_xray_version=custom
+  latest_trojan_version=custom
 else
   case "${ARCH}" in
     arm)
@@ -39,7 +39,7 @@ else
   if [ -f /sdcard/Download/"${version}" ]; then
     cp /sdcard/Download/"${version}" "${download_trojan_zip}"
     ui_print "Info: trojan-go already downloaded, starting installer"
-    latest_xray_version=custom
+    latest_trojan_version=custom
   else
     # download latest trojan-go from official link
     ui_print "- Connect official trojan download link."
