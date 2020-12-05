@@ -20,7 +20,7 @@ tun_start() {
   create_tun_link
   echo "[Info]: Starting tun2socks"
   echo "" > ${run_path}/tun2socks.log
-  nohup tun2socks -tunName $tun_device -tunAddr 10.0.0.2 -tunMask 255.255.255.0 -proxyServer 127.0.0.1:${proxy_port} &>${run_path}/tun2socks.log &
+  nohup tun2socks -tunName $tun_device -tunAddr 198.18.0.2 -tunMask 255.255.255.0 -proxyServer 127.0.0.1:${proxy_port} &>${run_path}/tun2socks.log &
   echo -n $! > ${run_path}/tun2socks.pid
 }
 
@@ -37,7 +37,7 @@ create_tun_link() {
         ln -s /dev/tun /dev/net/tun
     fi
     ip tuntap add mode tun $tun_device >/dev/null 2>&1
-    ip addr add 10.0.0.1/24 dev $tun_device >/dev/null 2>&1
+    ip addr add 198.18.0.1/24 dev $tun_device >/dev/null 2>&1
     ip link set $tun_device up >/dev/null 2>&1
 }
 

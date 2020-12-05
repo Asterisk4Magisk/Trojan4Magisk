@@ -80,7 +80,7 @@ create_proxy_iptables() {
 
     ${iptables_wait} -t mangle -A PROXY -m owner --gid-owner ${net_raw_uid} -j RETURN
     ${iptables_wait} -t mangle -A PROXY -m owner --gid-owner ${inet_uid} -j RETURN
-    ${iptables_wait} -t nat -A FILTER_DNS -m owner --gid-owner ${net_raw_uid}  -j RETURN
+    ${iptables_wait} -t nat -A FILTER_DNS -m owner --gid-owner ${net_raw_uid} -j RETURN
     ${iptables_wait} -t nat -A FILTER_DNS -m owner --gid-owner ${inet_uid} -j RETURN
 
     probe_proxy_mode
@@ -111,8 +111,7 @@ create_dns_iptables() {
     ${iptables_wait} -t nat -N DNS
     ${iptables_wait} -t nat -A DNS -p tcp --dport 53 -j REDIRECT --to-port ${dns_port}
     ${iptables_wait} -t nat -A DNS -p udp --dport 53 -j REDIRECT --to-port ${dns_port}
-    ${iptables_wait} -t nat -A OUTPUT -p udp -m owner --uid-owner ${dnsmasq_uid} --dport 53 -j DNAT --to-destination 127.0.0.1:${dns_port}
-}
+    }
 
 flush_iptables() {
   echo "[Info]: flush iptables"
@@ -133,7 +132,6 @@ flush_iptables() {
     ${iptables_wait} -t nat -X FILTER_DNS
     ${iptables_wait} -t nat -X DNS
     ${iptables_wait} -t nat -X AP_PROXY
-    ${iptables_wait} -t nat -D OUTPUT -p udp -m owner --uid-owner ${dnsmasq_uid} --dport 53 -j DNAT --to-destination 127.0.0.1:${dns_port} 2>/dev/null
 }
 
 probe_proxy_mode() {
