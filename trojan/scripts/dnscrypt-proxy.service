@@ -9,27 +9,9 @@ conf_path="/data/trojan/dnscrypt-proxy"
 conf_file="${conf_path}/dnscrypt-proxy.toml"
 bin_opts="-config ${conf_file}"
 iptables_wait="iptables"
-trojan_share=false
-softap_file="/data/trojan/softap.list"
-appid_list=()
-proxy_for_guest=false
 host_ip="127.0.0.1"
 dns_port="65534"
 proxy_port="65535"
-
-suit_iptables_version() {
-  iptables_version=`iptables -V | grep -o "v1\.[0-9]"`
-  if [ "${iptables_version}" = "v1.4" ] ; then
-    ## fix options for lower version iptables
-    export ANDROID_DATA=/data
-    export ANDROID_ROOT=/system
-    iptables_wait="iptables -w"
-  elif [ "${iptables_version}" = "v1.6" ] || [ "${iptables_version}" = "v1.8" ] ; then
-    iptables_wait="iptables -w 100"
-  else
-    iptables_wait="echo iptables"
-  fi
-}
 
 find_netstat_path() {
   [ -f /system/bin/netstat ] && alias netstat="/system/bin/netstat" && return 0
@@ -53,28 +35,6 @@ probe_trojan_listen() {
   fi
 }
 
-check_proxy_guest() {
-  ## add eof to appid and softap file
-  echo "" >> "${softap_file}"
-  ## trim empty line in softap file
-  sed -i '/^$/d' "${softap_file}"
-  ## probe proxy wifi interface
-  ${trojan_share} && [ -f ${softap_file} ] && softap_list=(`cat ${softap_file}`) || unset softap_list
-  ## check proxy wifi guest or not
-  [ ${#softap_list[@]} -gt 0 ] && proxy_for_guest=true
-}
-
-create_proxy_iptables() {
-  echo "[Info]: Proxy local system's DNS request."
-  ${iptables_wait} -t nat -A OUTPUT -p udp -m owner --uid-owner 0 --dport 53 -j DNAT --to-destination ${host_ip}:${dns_port}
-  ## proxy wifi guest DNS
-  check_proxy_guest && \
-  if ${proxy_for_guest} ; then
-    echo "[Info]: Proxy dnsmasq's DNS request."
-    ${iptables_wait} -t nat -A OUTPUT -p udp -m owner --uid-owner ${dnsmasq_uid} --dport 53 -j DNAT --to-destination ${host_ip}:${dns_port}
-  fi
-}
-
 display_dnscrypt-proxy_pid() {
   if probe_dnscrypt-proxy_alive ; then
     echo "[Info]: ${bin_name} service is running. ( PID: `cat ${pid_file}` )"
@@ -83,12 +43,6 @@ display_dnscrypt-proxy_pid() {
     echo "[Info]: ${bin_name} service is stopped."
     return 1
   fi
-}
-
-flush_dns_iptables() {
-  echo "[Info]: Clean DNS proxy iptables rules."
-  ${iptables_wait} -t nat -D OUTPUT -p udp -m owner --uid-owner 0 --dport 53 -j DNAT --to-destination ${host_ip}:${dns_port} 2>/dev/null
-  ${iptables_wait} -t nat -D OUTPUT -p udp -m owner --uid-owner ${dnsmasq_uid} --dport 53 -j DNAT --to-destination ${host_ip}:${dns_port} 2>/dev/null
 }
 
 start_dnscrypt-proxy() {
@@ -130,8 +84,6 @@ stop_dnscrypt-proxy() {
   fi
   rm -f ${pid_file}
 }
-
-suit_iptables_version
 
 case "$1" in
   enable)

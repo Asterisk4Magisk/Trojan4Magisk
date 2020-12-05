@@ -1,5 +1,6 @@
 #!/system/bin/sh
 
+dnsmasq_uid="1052"
 route_id="1130"
 inet_uid="3003"
 net_raw_uid="3004"
@@ -110,6 +111,7 @@ create_dns_iptables() {
     ${iptables_wait} -t nat -N DNS
     ${iptables_wait} -t nat -A DNS -p tcp --dport 53 -j REDIRECT --to-port ${dns_port}
     ${iptables_wait} -t nat -A DNS -p udp --dport 53 -j REDIRECT --to-port ${dns_port}
+    ${iptables_wait} -t nat -A OUTPUT -p udp -m owner --uid-owner ${dnsmasq_uid} --dport 53 -j DNAT --to-destination 127.0.0.1:${dns_port}
 }
 
 flush_iptables() {
@@ -131,6 +133,7 @@ flush_iptables() {
     ${iptables_wait} -t nat -X FILTER_DNS
     ${iptables_wait} -t nat -X DNS
     ${iptables_wait} -t nat -X AP_PROXY
+    ${iptables_wait} -t nat -D OUTPUT -p udp -m owner --uid-owner ${dnsmasq_uid} --dport 53 -j DNAT --to-destination 127.0.0.1:${dns_port} 2>/dev/null
 }
 
 probe_proxy_mode() {
